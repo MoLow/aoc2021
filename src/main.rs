@@ -2,6 +2,7 @@ use std::fs;
 
 mod day1;
 mod day2;
+mod day3;
 
 fn get_input(day: u8) -> String {
     let mut file = String::from(""); //env::current_dir().unwrap().to_str().unwrap().to_owned();
@@ -15,5 +16,7 @@ fn main() {
     println!("################ Day 1 ################");
     day1::run(get_input(1));
     println!("################ Day 2 ################");
-    day2::run(get_input(1));
+    day2::run(get_input(2));
+    println!("################ Day 3 ################");
+    day3::run(get_input(3));
 }
