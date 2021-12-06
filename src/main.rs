@@ -5,6 +5,7 @@ mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day6;
 
 fn get_input(day: u8) -> String {
     let mut file = String::from(""); //env::current_dir().unwrap().to_str().unwrap().to_owned();
@@ -35,6 +36,7 @@ fn main() {
         3 => day3::run(input),
         4 => day4::run(input),
         5 => day5::run(input),
-        _ => println!("Please enter a valid da"),
+        6 => day6::run(input),
+        _ => println!("Please enter a valid day"),
     }
 }
