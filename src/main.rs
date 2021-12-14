@@ -26,7 +26,7 @@ fn get_input(day: u8) -> String {
     return contents.expect("Could not read file, input.txt does not exist for day {}");
 }
 
-fn main() {
+pub fn main() {
     let args: Vec<String> = env::args().collect();
     let day = args.get(1);
     if day.is_none() {
