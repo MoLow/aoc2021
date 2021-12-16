@@ -9,13 +9,16 @@ body {
 .days  {
     text-align: center;
     display: flex;
+    justify-content: space-between;
 }
+.days a { margin: 5px; }
 
 pre {
     background-color: #4e4949;
     color: #ffeb3b;
     display: inline-flex;
     padding: 20px;
+    margin: 5px;
 }
 pre.error {
     color: #ff0000;
