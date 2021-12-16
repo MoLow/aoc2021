@@ -37,5 +37,6 @@ module.exports = {
   plugins: [
     new WasmPackPlugin({ crateDirectory: path.resolve(__dirname, '..'), outDir: path.resolve(__dirname, 'pkg') }),
     new HtmlWebpackPlugin({ title: 'AOC 2021 Rust WebAssembly', chunks: ['index'] }),
+    new HtmlWebpackPlugin({ title: 'AOC 2021 Rust WebAssembly', chunks: ['index'], filename: '404.html' }),
   ],
 };

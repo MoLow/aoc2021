@@ -26,7 +26,7 @@ worker.addEventListener('message', (event) => {
 function runCurrentDay() {
     let prevDay = state.day;
     state.day = Number(location.pathname.match(/\d+/)?.[0]);
-    if (prevDay !== state.day) {
+    if (prevDay !== state.day && state.day) {
         state.result = null;
         state.error = null;
         render();
@@ -36,6 +36,7 @@ function runCurrentDay() {
 
 function render() {
     pre.classList.remove('error');
+
     if (state.result === null) {
         pre.innerHTML = `Calculating day ${state.day}...`;
     }
@@ -53,6 +54,7 @@ function render() {
 };
 
 (function () {
+    const baseUrl = location.pathname.split('/').slice(0, -1).join('/');
     const root = document.createElement('div');
     const daysContainer = document.createElement('div');
     daysContainer.classList.add('days');
@@ -60,7 +62,7 @@ function render() {
         day++;
         const a = document.createElement('a');
         a.innerText = `Day ${day}`;
-        a.href = `/day${day}`;
+        a.href = `${baseUrl}/day${day}`;
         a.addEventListener('click', (e) => {
             navigate(`/day${day}`);
             e.preventDefault();
