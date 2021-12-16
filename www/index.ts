@@ -2,6 +2,7 @@ import './index.css';
 
 const worker = new Worker('worker.js');
 const pre = document.createElement('pre');
+const baseUrl = location.pathname.split('/').slice(0, -1).join('/');
 
 const state: { day: number, result: any, error?: string } = { day: 0, result: null };
 
@@ -25,7 +26,7 @@ worker.addEventListener('message', (event) => {
 
 function runCurrentDay() {
     let prevDay = state.day;
-    state.day = Number(location.pathname.match(/\d+/)?.[0]);
+    state.day = Number(location.pathname.replace(baseUrl, '').match(/\d+/)?.[0]);
     if (prevDay !== state.day && state.day) {
         state.result = null;
         state.error = null;
@@ -54,7 +55,6 @@ function render() {
 };
 
 (function () {
-    const baseUrl = location.pathname.split('/').slice(0, -1).join('/');
     const root = document.createElement('div');
     const daysContainer = document.createElement('div');
     daysContainer.classList.add('days');
