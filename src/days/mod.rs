@@ -14,7 +14,7 @@ mod day13;
 mod day14;
 mod day15;
 
-pub fn select_day<P: Fn(&str) -> ()>(day: u8, print: P) -> (usize, usize) {
+pub fn select_day<P: FnMut(&str) -> ()>(day: u8, mut print: P) -> (usize, usize) {
     print(&format!("################ Day {} ################", day));
     return match day {
         1 => day1::run(),

@@ -1,0 +1,19 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.days  {
+    text-align: center;
+    display: flex;
+}
+
+pre {
+    background-color: #4e4949;
+    color: #ffeb3b;
+    display: inline-flex;
+    padding: 20px;
+}

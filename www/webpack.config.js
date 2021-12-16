@@ -9,7 +9,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "index.js",
+    filename: "[name].js"
   },
   module: {
     rules: [
@@ -18,13 +18,21 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ],
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   resolve: {
     extensions: [".ts", ".js"],
   },
   mode: "development",
   plugins: [
+    new WasmPackPlugin({ crateDirectory: path.resolve(__dirname, '..'), outDir: path.resolve(__dirname, 'pkg') }),
     new HtmlWebpackPlugin(),
   ],
 };

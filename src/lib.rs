@@ -1,11 +1,7 @@
+use js_sys::Array;
 use wasm_bindgen::prelude::*;
 
 mod days;
-
-pub fn set_panic_hook() {
-    #[cfg(feature = "console_error_panic_hook")]
-    console_error_panic_hook::set_once();
-}
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
@@ -18,12 +14,20 @@ extern {
 }
 
 #[wasm_bindgen]
-pub fn greet(s: &str) {
-    log(&format!("Hello {}!", s));
+pub fn run(day: u8) -> JsValue {
+    let mut output = String::new();
+
+    let (part1, part2) = days::select_day(day, |s| {
+        output.push_str(&s);
+        output.push_str("\n\n");
+        log(s)
+    });
+    return JsValue::from(vec![JsValue::from(part1), JsValue::from(part2), JsValue::from(output)].into_iter().collect::<Array>());
 }
 
 #[wasm_bindgen]
-pub fn run(day: u8) -> Vec<usize> {
-    let (part1, part2) = days::select_day(day, |s| log(s));
-    return vec![part1, part2];
+pub fn init() {
+    // This provides better error messages in debug mode.
+    // It's disabled in release mode so it doesn't bloat up the file size.
+    console_error_panic_hook::set_once();
 }
