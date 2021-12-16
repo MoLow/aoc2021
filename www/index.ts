@@ -64,7 +64,7 @@ function render() {
         a.innerText = `Day ${day}`;
         a.href = `${baseUrl}/day${day}`;
         a.addEventListener('click', (e) => {
-            navigate(`/day${day}`);
+            navigate(`${baseUrl}/day${day}`);
             e.preventDefault();
         });
         daysContainer.appendChild(a);
