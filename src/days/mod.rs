@@ -14,6 +14,7 @@ mod day11;
 mod day12;
 mod day13;
 mod day14;
+mod day15;
 
 fn get_input(day: u8) -> String {
     let mut file = String::from(""); //env::current_dir().unwrap().to_str().unwrap().to_owned();
@@ -43,6 +44,7 @@ pub fn select_day(day: u8) {
         12 => day12::run(input),
         13 => day13::run(input),
         14 => day14::run(input),
+        15 => day15::run(input),
         _ => panic!("Day {} not implemented", day),
     };
 }
