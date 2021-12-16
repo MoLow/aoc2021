@@ -16,9 +16,9 @@ pub fn count_increasing(input: &str, window_size: usize) -> usize {
 
 static INPUT: &str = include_str!("./input.txt");
 
-pub fn run() -> (usize, usize) {
-    let part1 = count_increasing(INPUT, 1);
-    let part2 = count_increasing(INPUT, 3);
+pub fn run() -> (u64, u64) {
+    let part1 = count_increasing(INPUT, 1) as u64;
+    let part2 = count_increasing(INPUT, 3) as u64;
     
     return (part1, part2);
 }

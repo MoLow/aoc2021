@@ -61,7 +61,7 @@ fn build_map(lines: Vec<&Line>) -> Vec<Vec<usize>> {
 
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) {
+pub fn run() -> (u64, u64) {
     let lines = parse_input(INPUT);
     let straight_lines = lines.iter()
         .filter(|line| line.x1 == line.x2 || line.y1 == line.y2)
@@ -72,5 +72,5 @@ pub fn run() -> (usize, usize) {
     let part1 = build_map(straight_lines).iter().map(|line| line.iter().filter(|&&x| x > 1).count()).sum::<usize>();
     let part2 = build_map(all_lines).iter().map(|line| line.iter().filter(|&&x| x > 1).count()).sum::<usize>();
 
-    return (part1, part2);
+    return (part1 as u64, part2 as u64);
 }

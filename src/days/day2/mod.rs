@@ -59,9 +59,9 @@ fn calc_coordinates_by_aim(input: &str) -> Coordinates {
 
 static INPUT: &str = include_str!("./input.txt");
 
-pub fn run() -> (usize, usize) {
+pub fn run() -> (u64, u64) {
     let coords = calc_coordinates(INPUT);
     let coord_by_aim = calc_coordinates_by_aim(INPUT);
 
-    return (coords.x * coords.y ,coord_by_aim.x * coord_by_aim.y);
+    return ((coords.x * coords.y) as u64 ,(coord_by_aim.x * coord_by_aim.y) as u64);
 }

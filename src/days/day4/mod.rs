@@ -109,17 +109,17 @@ fn parse_input(input: &str) -> (Vec<usize>,Vec<BingoBoard>) {
 
 static INPUT: &str = include_str!("./input.txt");
 
-pub fn run() -> (usize, usize) {
+pub fn run() -> (u64, u64) {
     let (numbers,mut boards) = parse_input(INPUT);
     let winner = get_winning_board(&mut boards, &numbers).unwrap();
     
     let ( board, num, ..) = winner;
-    let part1 = board.score() * num;
+    let part1 = (board.score() * num) as u64;
 
 
     let last_winner = get_last_winning_board(&mut boards, &numbers).unwrap();
     let ( board, num) = last_winner;
-    let part2 = board.score() * num;
+    let part2 = (board.score() * num) as u64;
     
     return (part1, part2);
 }

@@ -13,7 +13,7 @@ fn parse_input(input: &str) -> (Vec<char>, HashMap<(char, char), char>) {
     return (polymer, rules);
 }
 
-fn run_insertion_rules(polymer: &Vec<char>, rules: &HashMap<(char, char), char>, times: i32) -> usize {
+fn run_insertion_rules(polymer: &Vec<char>, rules: &HashMap<(char, char), char>, times: i32) -> u64 {
     let mut chars_count = polymer
         .iter()
         .fold(HashMap::new(), |mut acc, c| {
@@ -46,7 +46,7 @@ fn run_insertion_rules(polymer: &Vec<char>, rules: &HashMap<(char, char), char>,
 }
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) { 
+pub fn run() -> (u64, u64) { 
     let (polymer, rules) = parse_input(INPUT);
     let part1 = run_insertion_rules(&polymer, &rules, 10);
     let part2 = run_insertion_rules(&polymer, &rules, 40);

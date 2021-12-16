@@ -25,10 +25,10 @@ fn calculate_sum(size: usize) -> usize {
 } 
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) {
+pub fn run() -> (u64, u64) {
     let crabs = parse_input(INPUT);
     let (part1, _) = find_cheapest_position(&crabs, |x| x);
     let (part2, _) = find_cheapest_position(&crabs, calculate_sum);
 
-    return (part1, part2);
+    return (part1 as u64, part2 as u64);
 }

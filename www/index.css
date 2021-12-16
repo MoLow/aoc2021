@@ -17,3 +17,6 @@ pre {
     display: inline-flex;
     padding: 20px;
 }
+pre.error {
+    color: #ff0000;
+}

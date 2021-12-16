@@ -67,11 +67,11 @@ fn run_until_all_flash(board: &mut Vec<Vec<usize>>) -> usize {
 
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) { 
+pub fn run() -> (u64, u64) { 
     let mut entries = parse_input(INPUT);
     
-    let part1 = run_steps(&mut entries.clone(), 100);
-    let part2 = run_until_all_flash(&mut entries);
+    let part1 = run_steps(&mut entries.clone(), 100) as u64;
+    let part2 = run_until_all_flash(&mut entries) as u64;
     
     return (part1, part2);
 }

@@ -1,5 +1,5 @@
-pub fn count_fish(all_fish: &Vec<usize>, days: usize) -> Vec<usize> {
-    let mut counter: Vec<usize> = vec![0; 9];
+pub fn count_fish(all_fish: &Vec<usize>, days: usize) -> Vec<u64> {
+    let mut counter: Vec<u64> = vec![0; 9];
 
     all_fish.iter().for_each(|&f| {
         counter[f] += 1;
@@ -25,7 +25,7 @@ pub fn count_fish(all_fish: &Vec<usize>, days: usize) -> Vec<usize> {
 
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) {
+pub fn run() -> (u64, u64) {
     let all_fish = INPUT
         .split(",")
         .map(|x| x.parse::<usize>().unwrap())

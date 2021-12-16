@@ -26,9 +26,14 @@ function render() {
         daysContainer.appendChild(a);
     });
 
-    const result = wasm.run(day);
     const pre = document.createElement('pre');
-    pre.innerText = `${result[2]}Part1: ${result[0]}\nPart2: ${result[1]}`;
+    try {
+        const result = wasm.run(day);
+        pre.innerText = `${result[2]}Part1: ${result[0]}\nPart2: ${result[1]}`;
+    } catch (e) {
+        pre.innerText = e.stack;
+        pre.classList.add('error');
+    }
 
     root.appendChild(daysContainer);
     root.appendChild(pre);

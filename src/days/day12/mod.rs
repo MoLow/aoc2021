@@ -40,7 +40,7 @@ fn find_paths<'a, F: Fn(&Vec<&str>, &str) -> bool>(connections: &HashMap<&str, H
 
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) { 
+pub fn run() -> (u64, u64) { 
     let connections = parse_input(INPUT);
 
     let part1 = find_paths(&connections, "start","end", &mut Vec::new(), &|path, cave| {
@@ -65,5 +65,5 @@ pub fn run() -> (usize, usize) {
         return !path.contains(&cave);
     });
 
-    return (part1.len(), part2.len());
+    return (part1.len() as u64, part2.len() as u64);
 }

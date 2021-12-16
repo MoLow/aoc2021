@@ -65,10 +65,10 @@ fn calculate_rating(input: &str, mode: RatingMode) -> usize {
 }
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) {
+pub fn run() -> (u64, u64) {
     let (gamma, epsilon) = calculate_gamma_and_epsilon_rate(INPUT);
 
     let oxygen_generator_rating = calculate_rating(INPUT, RatingMode::MostCommon);
     let co2_scrub_rating = calculate_rating(INPUT, RatingMode::LeastCommon);
-    return (gamma * epsilon, oxygen_generator_rating * co2_scrub_rating);
+    return ((gamma * epsilon) as u64, (oxygen_generator_rating * co2_scrub_rating) as u64);
 }

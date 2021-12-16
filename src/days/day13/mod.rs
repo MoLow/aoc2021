@@ -72,9 +72,9 @@ pub fn draw(board: &HashSet<(i32, i32)>) -> String {
 }
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run<P: FnMut(&str) -> ()>(mut printer: P) -> (usize, usize) { 
+pub fn run<P: FnMut(&str) -> ()>(mut printer: P) -> (u64, u64) { 
     let (dots, folds) = parse_input(INPUT);
-    let part1 = fold_dots(&dots, &folds[0]).len();
+    let part1 = fold_dots(&dots, &folds[0]).len() as u64;
     
     printer(&draw(&fold_all_dots(&dots, &folds)));
     return (part1, 0);

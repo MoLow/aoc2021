@@ -40,7 +40,7 @@ fn parse_line(line: &Vec<char>) -> LineType {
     return LineType::Valid;
 }
 
-fn calculate_corrupted_scores(lines: &Vec<LineType>) -> usize {
+fn calculate_corrupted_scores(lines: &Vec<LineType>) -> u64 {
     return lines.iter().map(|line| match line {
         LineType::Corrupted(c) => match c {
             ')' => 3,
@@ -51,10 +51,10 @@ fn calculate_corrupted_scores(lines: &Vec<LineType>) -> usize {
         },
         _ => 0,
     })
-    .sum::<usize>();
+    .sum::<u64>();
 }
 
-fn calculate_incomplete_scores(lines: &Vec<LineType>) -> usize {
+fn calculate_incomplete_scores(lines: &Vec<LineType>) -> u64 {
     let mut scores = lines
         .iter()
         .map(|line| match line {
@@ -75,7 +75,7 @@ fn calculate_incomplete_scores(lines: &Vec<LineType>) -> usize {
             _ => 0,
         })
         .filter(|score| *score > 0)
-        .collect::<Vec<usize>>();
+        .collect::<Vec<u64>>();
 
     scores.sort();
 
@@ -83,7 +83,7 @@ fn calculate_incomplete_scores(lines: &Vec<LineType>) -> usize {
 }
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) { 
+pub fn run() -> (u64, u64) { 
     let entries = parse_input(INPUT);
     let lines = entries.iter().map(|line| parse_line(line)).collect::<Vec<LineType>>();
 

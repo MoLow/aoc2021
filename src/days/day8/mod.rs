@@ -78,7 +78,7 @@ fn decode_outputs(mapping: &HashMap<i32, HashSet<char>>, output: &Vec<&str>) -> 
 
 
 static INPUT: &str = include_str!("./input.txt");
-pub fn run() -> (usize, usize) { 
+pub fn run() -> (u64, u64) { 
     let numbers: Vec<Vec<DisplaySegment>> = vec![
         vec![DisplaySegment::A, DisplaySegment::B, DisplaySegment::C, DisplaySegment::E, DisplaySegment::F, DisplaySegment::G],                     // 0: 6
         vec![DisplaySegment::C, DisplaySegment::F],                                                                                                 // 1: 2 - unique
@@ -94,7 +94,7 @@ pub fn run() -> (usize, usize) {
 
     let entries = parse_input(&INPUT);
 
-    let part1 = count_output_by_lengths(&entries, &numbers);
+    let part1 = count_output_by_lengths(&entries, &numbers) as u64;
     let part2 = entries
         .iter()
         .map(|entry| {
@@ -102,7 +102,7 @@ pub fn run() -> (usize, usize) {
             let mapping = calculate_mapping(input, &numbers);
             return decode_outputs(&mapping, output);
         })
-        .sum::<i32>() as usize;
+        .sum::<i32>()  as u64;
 
     return (part1, part2);
 }
