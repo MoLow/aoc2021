@@ -1,17 +1,59 @@
 import './index.css';
-import * as wasm from './pkg';
 
-const root = document.createElement('div');
+const worker = new Worker('worker.js');
+const pre = document.createElement('pre');
+
+const state: { day: number, result: any, error?: string } = { day: 0, result: null };
 
 function navigate(path: string) {
     history.pushState({}, '', path);
+    runCurrentDay();
+}
+
+worker.addEventListener('message', (event) => {
+    const { type, day, result, error } = event.data;
+    if (type === 'ready') { 
+        state.day = 0;
+        return runCurrentDay();
+    }
+    if (type === 'runDay' && day === state.day) {
+        state.result = result;
+        state.error = error;
+    }
     render();
+});
+
+function runCurrentDay() {
+    let prevDay = state.day;
+    state.day = Number(location.pathname.match(/\d+/)?.[0]);
+    if (prevDay !== state.day) {
+        state.result = null;
+        state.error = null;
+        render();
+        worker.postMessage({ type: 'runDay', day: state.day });
+    }
 }
 
 function render() {
-    const day = Number(location.pathname.match(/\d+/)?.[0])
-    root.innerHTML = '';
+    pre.classList.remove('error');
+    if (state.result === null) {
+        pre.innerHTML = `Calculating day ${state.day}...`;
+    }
 
+    if (state.error) {
+        pre.innerHTML = state.error;
+        pre.classList.add('error');
+    }
+
+    if (state.result) {
+        const result = state.result;
+        pre.innerText = `${result[2]}Part1: ${result[0]}\nPart2: ${result[1]}`;
+    }
+
+};
+
+(function () {
+    const root = document.createElement('div');
     const daysContainer = document.createElement('div');
     daysContainer.classList.add('days');
     Array(25).fill(0).forEach((_, day) => {
@@ -26,22 +68,10 @@ function render() {
         daysContainer.appendChild(a);
     });
 
-    const pre = document.createElement('pre');
-    try {
-        const result = wasm.run(day);
-        pre.innerText = `${result[2]}Part1: ${result[0]}\nPart2: ${result[1]}`;
-    } catch (e) {
-        pre.innerText = e.stack;
-        pre.classList.add('error');
-    }
 
     root.appendChild(daysContainer);
     root.appendChild(pre);
-};
-
-(function () {
-    wasm.init();
     document.body.appendChild(root);
-    window.addEventListener('popstate', render);
-    render();
+    window.addEventListener('popstate', runCurrentDay);
+    runCurrentDay();
 }());

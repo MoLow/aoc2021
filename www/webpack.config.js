@@ -3,7 +3,10 @@ const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin')
 const path = require('path');
 
 module.exports = {
-  entry: "./index.ts",
+  entry: {
+    index: "./index.ts",
+    worker: "./worker.ts"
+  },
   experiments: {
     asyncWebAssembly: true,
   },
@@ -33,6 +36,6 @@ module.exports = {
   mode: "development",
   plugins: [
     new WasmPackPlugin({ crateDirectory: path.resolve(__dirname, '..'), outDir: path.resolve(__dirname, 'pkg') }),
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({ title: 'AOC 2021 Rust WebAssembly', chunks: ['index'] }),
   ],
 };
