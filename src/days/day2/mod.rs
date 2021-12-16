@@ -1,21 +1,21 @@
 
 struct Coordinates {
-    x: i32,
-    y: i32,
-    aim: i32,
+    x: usize,
+    y: usize,
+    aim: usize,
 }
 
 enum Command {
-    Forward(i32),
-    Up(i32),
-    Down(i32),
+    Forward(usize),
+    Up(usize),
+    Down(usize),
 }
 impl std::str::FromStr for Command {
     type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut iter = s.split_whitespace();
         let command = iter.next().unwrap();
-        let value = iter.next().unwrap().parse::<i32>().unwrap();
+        let value = iter.next().unwrap().parse::<usize>().unwrap();
         match command {
             "up" => Ok(Command::Up(value)),
             "down" => Ok(Command::Down(value)),
@@ -25,7 +25,7 @@ impl std::str::FromStr for Command {
     }
 }
 
-fn get_commands(input: &String) -> Vec<Command> {
+fn get_commands(input: &str) -> Vec<Command> {
     return input
         .split('\n')
         .filter(|&x| !x.is_empty())
@@ -33,7 +33,7 @@ fn get_commands(input: &String) -> Vec<Command> {
         .collect();
 }
 
-fn calc_coordinates(input: &String) -> Coordinates {
+fn calc_coordinates(input: &str) -> Coordinates {
     return get_commands(input)
         .iter()
         .fold(Coordinates { x: 0, y: 0, aim: 0 }, |acc, x| {
@@ -45,7 +45,7 @@ fn calc_coordinates(input: &String) -> Coordinates {
         });
 }
 
-fn calc_coordinates_by_aim(input: &String) -> Coordinates {
+fn calc_coordinates_by_aim(input: &str) -> Coordinates {
     return get_commands(input)
         .iter()
         .fold(Coordinates { x: 0, y: 0, aim: 0 }, |acc, x| {
@@ -57,12 +57,11 @@ fn calc_coordinates_by_aim(input: &String) -> Coordinates {
         });
 }
 
+static INPUT: &str = include_str!("./input.txt");
 
-pub fn run(input: String) {
-    let input_ref = &input;
-    let coords = calc_coordinates(input_ref);
-    let coord_by_aim = calc_coordinates_by_aim(input_ref);
+pub fn run() -> (usize, usize) {
+    let coords = calc_coordinates(INPUT);
+    let coord_by_aim = calc_coordinates_by_aim(INPUT);
 
-    println!("part 1: {} X {} = {}", coords.x, coords.y, coords.x * coords.y);
-    println!("part 2: {} X {} = {}", coord_by_aim.x, coord_by_aim.y, coord_by_aim.x * coord_by_aim.y);
+    return (coords.x * coords.y ,coord_by_aim.x * coord_by_aim.y);
 }

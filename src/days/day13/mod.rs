@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::{collections::HashSet};
 
 
 
@@ -52,25 +52,30 @@ fn fold_all_dots(dots: &HashSet<(i32, i32)>, folds: &Vec<(i32, i32)>) -> HashSet
     return new_dots;
 }
 
-pub fn draw(board: &HashSet<(i32, i32)>) {
+pub fn draw(board: &HashSet<(i32, i32)>) -> String {
     let max_x = *board.iter().map(|(x, _)| x).max().unwrap();
     let max_y = *board.iter().map(|(_, y)| y).max().unwrap();
+    let mut result = String::new();
+
     for y in 0..=max_y {
         for x in 0..=max_x {
             if board.contains(&(x, y)) {
-                print!("#");
+                result.push('#');
             } else {
-                print!(".");
+                result.push('.');
             }
         }
-        println!();
+        result.push('\n');
     }
+
+    return result;
 }
 
-pub fn run(input: String) { 
-    let (dots, folds) = parse_input(&input);
-    let part1 = fold_dots(&dots, &folds[0]);
-    println!("Part 1: {}", part1.len());
-    println!("Part 2:");
-    draw(&fold_all_dots(&dots, &folds));
+static INPUT: &str = include_str!("./input.txt");
+pub fn run<P: Fn(&str) -> ()>(printer: P) -> (usize, usize) { 
+    let (dots, folds) = parse_input(INPUT);
+    let part1 = fold_dots(&dots, &folds[0]).len();
+    
+    printer(&draw(&fold_all_dots(&dots, &folds)));
+    return (part1, 0);
 }

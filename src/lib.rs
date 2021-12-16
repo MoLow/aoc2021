@@ -23,6 +23,7 @@ pub fn greet(s: &str) {
 }
 
 #[wasm_bindgen]
-pub fn run(day: u8) {
-    days::select_day(day);
+pub fn run(day: u8) -> Vec<usize> {
+    let (part1, part2) = days::select_day(day, |s| log(s));
+    return vec![part1, part2];
 }

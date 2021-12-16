@@ -56,11 +56,15 @@ fn find_basins(grid: &Vec<Vec<i32>>, low_points: &Vec<(usize, usize)>) -> Vec<i3
 }
 
 
-pub fn run(input: String) { 
-    let entries = parse_input(&input);
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) { 
+    let entries = parse_input(INPUT);
     let low_points = find_low_points(&entries);
-    println!("Part1: {:?}", low_points.iter().map(|(x, y)| entries[*y][*x] + 1).sum::<i32>());
+    let part1 = low_points.iter().map(|(x, y)| entries[*y][*x] + 1).sum::<i32>() as usize;
+    
     let mut basins = find_basins(&entries, &low_points);
     basins.sort();
-    println!("Part2: {:?}", basins.iter().rev().take(3).product::<i32>());
+    let part2 = basins.iter().rev().take(3).product::<i32>() as usize;
+
+    return (part1, part2);
 }

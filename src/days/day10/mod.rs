@@ -82,10 +82,10 @@ fn calculate_incomplete_scores(lines: &Vec<LineType>) -> usize {
     return *scores.get(scores.len() / 2).unwrap();
 }
 
-pub fn run(input: String) { 
-    let entries = parse_input(&input);
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) { 
+    let entries = parse_input(INPUT);
     let lines = entries.iter().map(|line| parse_line(line)).collect::<Vec<LineType>>();
 
-    println!("Part 1: {}", calculate_corrupted_scores(&lines));
-    println!("Part 2: {}", calculate_incomplete_scores(&lines));
+    return (calculate_corrupted_scores(&lines), calculate_incomplete_scores(&lines));
 }

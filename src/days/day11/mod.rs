@@ -1,13 +1,13 @@
 use std::collections::HashSet;
 
-fn parse_input(input: &str) -> Vec<Vec<i32>> {
+fn parse_input(input: &str) -> Vec<Vec<usize>> {
     return input
         .lines()
-        .map(|line| line.chars().map(|c| c.to_string().parse::<i32>().unwrap()).collect())
+        .map(|line| line.chars().map(|c| c.to_string().parse::<usize>().unwrap()).collect())
         .collect();
 }
 
-fn increase_adjacent(board: &mut Vec<Vec<i32>>, x: usize, y: usize) {
+fn increase_adjacent(board: &mut Vec<Vec<usize>>, x: usize, y: usize) {
     if y > 0 && x > 0 { board[y - 1][x - 1] += 1; }
     if y > 0 { board[y - 1][x] += 1; }
     if y > 0 && x < board[y].len() - 1 { board[y - 1][x + 1] += 1; }
@@ -18,7 +18,7 @@ fn increase_adjacent(board: &mut Vec<Vec<i32>>, x: usize, y: usize) {
     if y < board.len() - 1 && x < board[y].len() - 1 { board[y + 1][x + 1] += 1; }
 }
 
-fn run_step(board: &mut Vec<Vec<i32>>) -> i32 {
+fn run_step(board: &mut Vec<Vec<usize>>) -> usize {
     board.iter_mut().for_each(|row| row.iter_mut().for_each(|cell| *cell += 1));
     
     let mut flashed: HashSet<(usize, usize)> = HashSet::new();
@@ -45,20 +45,20 @@ fn run_step(board: &mut Vec<Vec<i32>>) -> i32 {
         }
     }));
 
-    return flashed.len() as i32;
+    return flashed.len();
 }
 
-fn run_steps(board: &mut Vec<Vec<i32>>, steps: i32) -> i32 {
-    let flashes: i32 = (0..steps).map(|_i| run_step(board)).sum();
+fn run_steps(board: &mut Vec<Vec<usize>>, steps: usize) -> usize {
+    let flashes: usize = (0..steps).map(|_i| run_step(board)).sum();
     return flashes;
 }
 
-fn run_until_all_flash(board: &mut Vec<Vec<i32>>) -> i32 {
+fn run_until_all_flash(board: &mut Vec<Vec<usize>>) -> usize {
     let mut counter = 0;
     loop {
         counter += 1;
         let flashes = run_step(board);
-        if flashes == board.len() as i32 * board[0].len() as i32 {
+        if flashes == board.len() * board[0].len() {
             break;
         }
     }
@@ -66,11 +66,12 @@ fn run_until_all_flash(board: &mut Vec<Vec<i32>>) -> i32 {
 }
 
 
-pub fn run(input: String) { 
-    let mut entries = parse_input(&input);
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) { 
+    let mut entries = parse_input(INPUT);
     
-    let flash_count = run_steps(&mut entries.clone(), 100);
-    println!("Part1: {}", flash_count);
-    let flash_count = run_until_all_flash(&mut entries);
-    println!("Part2: {}", flash_count);
+    let part1 = run_steps(&mut entries.clone(), 100);
+    let part2 = run_until_all_flash(&mut entries);
+    
+    return (part1, part2);
 }

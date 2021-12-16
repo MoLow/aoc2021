@@ -1,33 +1,34 @@
 use cached::proc_macro::cached;
 
-fn parse_input(input: &str) -> Vec<i32> {
-    input.trim().split(',').map(|x| x.parse::<i32>().unwrap()).collect()
+fn parse_input(input: &str) -> Vec<usize> {
+    input.trim().split(',').map(|x| x.parse::<usize>().unwrap()).collect()
 }
 
-fn find_cheapest_position<F: Fn(i32) -> i32>(crabs: &Vec<i32>, calculate_cost: F) -> (i32, i32) {
+fn find_cheapest_position<F: Fn(usize) -> usize>(crabs: &Vec<usize>, calculate_cost: F) -> (usize, usize) {
     let max = *crabs.iter().max().unwrap();
     let min = *crabs.iter().min().unwrap();
     let range = min..max;
 
     let deltas = range
-        .map(|x| crabs.iter().map(|y| calculate_cost((x - y).abs())).sum())
-        .collect::<Vec<i32>>();
+        .map(|x| crabs.iter().map(|y| calculate_cost((x as isize - *y as isize).abs() as usize)).sum())
+        .collect::<Vec<usize>>();
 
     let minimum_cost = *deltas.iter().min().unwrap();
-    let minimum_cost_index = deltas.iter().position(|&x| x == minimum_cost).unwrap() as i32;
+    let minimum_cost_index = deltas.iter().position(|&x| x == minimum_cost).unwrap() as usize;
 
     return (minimum_cost, minimum_cost_index);
 }
 
 #[cached]
-fn calculate_sum(size: i32) -> i32 {
-    (1..size + 1).sum::<i32>()
+fn calculate_sum(size: usize) -> usize {
+    (1..size + 1).sum()
 } 
 
-pub fn run(input: String) {
-    let crabs = parse_input(&input);
-    let cheapest_position = find_cheapest_position(&crabs, |x| x);
-    println!("Part1: {:?}", cheapest_position);
-    let cheapest_position_2 = find_cheapest_position(&crabs, calculate_sum);
-    println!("Part2: {:?}", cheapest_position_2);
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) {
+    let crabs = parse_input(INPUT);
+    let (part1, _) = find_cheapest_position(&crabs, |x| x);
+    let (part2, _) = find_cheapest_position(&crabs, calculate_sum);
+
+    return (part1, part2);
 }

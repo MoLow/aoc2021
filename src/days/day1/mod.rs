@@ -1,4 +1,4 @@
-pub fn count_increasing(input: &String, window_size: usize) -> i32 {
+pub fn count_increasing(input: &str, window_size: usize) -> usize {
     return input
         .split_whitespace()
         .map(|x| x.parse::<i32>()
@@ -14,8 +14,11 @@ pub fn count_increasing(input: &String, window_size: usize) -> i32 {
         .unwrap()
 }
 
-pub fn run(input: String) {
-    let input_ref = &input;
-    println!("total increasing: {}", count_increasing(input_ref, 1));
-    println!("total increasing - part 2: {}", count_increasing(input_ref, 3));
+static INPUT: &str = include_str!("./input.txt");
+
+pub fn run() -> (usize, usize) {
+    let part1 = count_increasing(INPUT, 1);
+    let part2 = count_increasing(INPUT, 3);
+    
+    return (part1, part2);
 }

@@ -1,7 +1,7 @@
 #[derive(Debug)]
 #[derive(Clone)]
 struct BingoCard {
-    number: i32,
+    number: usize,
     is_marked: bool,
 }
 
@@ -34,7 +34,7 @@ impl BingoBoard {
         }
     }
 
-    fn mark(&mut self, num: i32) {
+    fn mark(&mut self, num: usize) {
         for card in &mut self.cards {
             for bingo in card {
                 if bingo.number == num {
@@ -44,7 +44,7 @@ impl BingoBoard {
         }
     }
 
-    fn score (&self) -> i32 {
+    fn score (&self) -> usize {
         let mut score = 0;
         for line in &self.cards {
             for card in line {
@@ -67,7 +67,7 @@ impl BingoBoard {
     }
 }
 
-fn get_winning_board(boards: &mut Vec<BingoBoard>, numbers: &Vec<i32>) -> Option<(BingoBoard, i32, usize)> {
+fn get_winning_board(boards: &mut Vec<BingoBoard>, numbers: &Vec<usize>) -> Option<(BingoBoard, usize, usize)> {
     for num in numbers {
         for (index, board) in (&mut *boards).iter_mut().enumerate() {
             board.mark(*num);
@@ -79,8 +79,8 @@ fn get_winning_board(boards: &mut Vec<BingoBoard>, numbers: &Vec<i32>) -> Option
     return None;
 }
 
-fn get_last_winning_board(boards: &mut Vec<BingoBoard>, numbers: &Vec<i32>) -> Option<(BingoBoard, i32)> {
-    let mut last_win: Option<(BingoBoard, i32)> = None;
+fn get_last_winning_board(boards: &mut Vec<BingoBoard>, numbers: &Vec<usize>) -> Option<(BingoBoard, usize)> {
+    let mut last_win: Option<(BingoBoard, usize)> = None;
     boards.iter_mut().for_each(|board| board.rest());
     
     while boards.len() > 0 {
@@ -95,9 +95,9 @@ fn get_last_winning_board(boards: &mut Vec<BingoBoard>, numbers: &Vec<i32>) -> O
     return last_win;
 }
 
-fn parse_input(input: &str) -> (Vec<i32>,Vec<BingoBoard>) {
+fn parse_input(input: &str) -> (Vec<usize>,Vec<BingoBoard>) {
     let lines = input.lines().filter(|line| !line.is_empty()).collect::<Vec<&str>>();
-    let numbers = lines[0].split(',').map(|num| num.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+    let numbers = lines[0].split(',').map(|num| num.parse::<usize>().unwrap()).collect::<Vec<usize>>();
 
     let boards = lines[1..]
         .chunks(5)
@@ -107,21 +107,19 @@ fn parse_input(input: &str) -> (Vec<i32>,Vec<BingoBoard>) {
     return (numbers, boards);
 }
 
-pub fn run(input: String) {
-    let (numbers,mut boards) = parse_input(&input);
-    let winner = get_winning_board(&mut boards, &numbers);
+static INPUT: &str = include_str!("./input.txt");
 
-    if winner.is_some() {
-        let ( board, num, ..) = winner.unwrap();
-        let score = board.score();
-        println!("first winner score {} X num {} = {}", score, num, score * num);
-    }
+pub fn run() -> (usize, usize) {
+    let (numbers,mut boards) = parse_input(INPUT);
+    let winner = get_winning_board(&mut boards, &numbers).unwrap();
+    
+    let ( board, num, ..) = winner;
+    let part1 = board.score() * num;
 
 
-    let last_winner = get_last_winning_board(&mut boards, &numbers);
-    if last_winner.is_some() {
-        let ( board, num) = last_winner.unwrap();
-        let score = board.score();
-        println!("last winner score {} X num {} = {}", score, num, score * num);
-    }
+    let last_winner = get_last_winning_board(&mut boards, &numbers).unwrap();
+    let ( board, num) = last_winner;
+    let part2 = board.score() * num;
+    
+    return (part1, part2);
 }

@@ -79,9 +79,12 @@ impl RiskMap {
     }
 }
 
-pub fn run(input: String) { 
-    let risk_map: RiskMap = input.parse().unwrap();
-    println!("Part 1: {}", risk_map.dijkstra());
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) { 
+    let risk_map: RiskMap = INPUT.parse().unwrap();
+    let part1 = risk_map.dijkstra() as usize;
     let risk_map = risk_map.multiply(5);
-    println!("Part 2: {}", risk_map.dijkstra());
+    let part2 = risk_map.dijkstra() as usize;
+
+    return (part1, part2);
 }

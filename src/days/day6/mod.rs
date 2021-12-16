@@ -1,18 +1,11 @@
-static TOTAL_DAYS: i32 = 256;
-
-pub fn run(input: String) {
+pub fn count_fish(all_fish: &Vec<usize>, days: usize) -> Vec<usize> {
     let mut counter: Vec<usize> = vec![0; 9];
 
-    let all_fish = input
-        .split(",")
-        .map(|x| x.parse::<usize>().unwrap())
-        .collect::<Vec<usize>>();
- 
     all_fish.iter().for_each(|&f| {
         counter[f] += 1;
     });
 
-    for _day in 0..TOTAL_DAYS {
+    for _day in 0..days {
         let mut add_count = 0;
         for i in 0..9 {
             if i == 0 {
@@ -27,5 +20,19 @@ pub fn run(input: String) {
         counter[8] += add_count;
     }
 
-    println!("{}", counter.iter().sum::<usize>());
+    return counter;
+}
+
+
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) {
+    let all_fish = INPUT
+        .split(",")
+        .map(|x| x.parse::<usize>().unwrap())
+        .collect::<Vec<usize>>();
+ 
+    let part1 = count_fish(&all_fish, 80).iter().sum();
+    let part2 = count_fish(&all_fish, 256).iter().sum();
+
+    return (part1, part2);
 }

@@ -59,8 +59,10 @@ fn build_map(lines: Vec<&Line>) -> Vec<Vec<usize>> {
     return map;
 }
 
-pub fn run(input: String) {
-    let lines = parse_input(&input);
+
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) {
+    let lines = parse_input(INPUT);
     let straight_lines = lines.iter()
         .filter(|line| line.x1 == line.x2 || line.y1 == line.y2)
         .collect::<Vec<&Line>>();
@@ -68,8 +70,7 @@ pub fn run(input: String) {
     let all_lines = lines.iter().collect::<Vec<&Line>>();
     
     let part1 = build_map(straight_lines).iter().map(|line| line.iter().filter(|&&x| x > 1).count()).sum::<usize>();
-    println!("part1: points with at least two overlapping lines: {}", part1);
-
     let part2 = build_map(all_lines).iter().map(|line| line.iter().filter(|&&x| x > 1).count()).sum::<usize>();
-    println!("part2: points with at least two overlapping lines: {}", part2);
+
+    return (part1, part2);
 }

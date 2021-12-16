@@ -45,10 +45,11 @@ fn run_insertion_rules(polymer: &Vec<char>, rules: &HashMap<(char, char), char>,
     return most_common_char - least_common_char;
 }
 
-pub fn run(input: String) { 
-    let (polymer, rules) = parse_input(&input);
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) { 
+    let (polymer, rules) = parse_input(INPUT);
     let part1 = run_insertion_rules(&polymer, &rules, 10);
-    println!("Part 1: {:?}", part1);
     let part2 = run_insertion_rules(&polymer, &rules, 40);
-    println!("Part 2: {:?}", part2);
+    
+    return (part1, part2);
 }

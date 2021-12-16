@@ -39,13 +39,13 @@ fn find_paths<'a, F: Fn(&Vec<&str>, &str) -> bool>(connections: &HashMap<&str, H
 }
 
 
-pub fn run(input: String) { 
-    let connections = parse_input(&input);
+static INPUT: &str = include_str!("./input.txt");
+pub fn run() -> (usize, usize) { 
+    let connections = parse_input(INPUT);
 
     let part1 = find_paths(&connections, "start","end", &mut Vec::new(), &|path, cave| {
         return !path.contains(&cave) || cave.chars().all(|c| c.is_uppercase());
     });
-    println!("Part1: {:?}", part1.len());
 
     let part2 = find_paths(&connections, "start","end", &mut Vec::new(), &|path, cave: &str| {
         if cave.chars().all(|c| c.is_uppercase()) {
@@ -64,5 +64,6 @@ pub fn run(input: String) {
 
         return !path.contains(&cave);
     });
-    println!("Part2: {:?}", part2.len());
+
+    return (part1.len(), part2.len());
 }
