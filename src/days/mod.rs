@@ -13,6 +13,7 @@ mod day12;
 mod day13;
 mod day14;
 mod day15;
+mod day16;
 
 pub fn select_day<P: FnMut(&str) -> ()>(day: u8, mut print: P) -> (u64, u64) {
     print(&format!("################ Day {} ################", day));
@@ -32,6 +33,7 @@ pub fn select_day<P: FnMut(&str) -> ()>(day: u8, mut print: P) -> (u64, u64) {
         13 => day13::run(print),
         14 => day14::run(),
         15 => day15::run(),
+        16 => day16::run(),
         _ => panic!("Day {} not implemented", day),
     };
 }
